@@ -18,6 +18,7 @@ obj/
 # Local environment overrides
 .env
 .env.*
+appsettings.Development.json
 
 # OS files
 .DS_Store
