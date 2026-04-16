@@ -1,0 +1,26 @@
+# Build output
+bin/
+obj/
+
+# User-specific files
+*.user
+*.rsuser
+*.suo
+
+# IDE/editor
+.vs/
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Local environment overrides
+.env
+.env.*
+
+# OS files
+.DS_Store
+
+# Tooling cache
+*.lscache

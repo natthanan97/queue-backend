@@ -1,0 +1,6 @@
+@queue_backend_HostAddress = http://localhost:5157
+
+GET {{queue_backend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
