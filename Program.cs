@@ -12,6 +12,30 @@ builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+    try
+    {
+        var canConnect = await dbContext.Database.CanConnectAsync();
+
+        if (canConnect)
+        {
+            logger.LogInformation("Database connection check succeeded at startup.");
+        }
+        else
+        {
+            logger.LogError("Database connection check failed at startup.");
+        }
+    }
+    catch (Exception ex)
+    {
+        logger.LogError(ex, "Database connection check threw an exception at startup.");
+    }
+}
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
