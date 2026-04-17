@@ -30,13 +30,33 @@ public class QueueController : ControllerBase
     [HttpGet("counter")]
     public async Task<IActionResult> GetAllCounter()
     {
-        var counter = await _context.QueueCounters
+        var counters = await _context.QueueCounters
             .AsQueryable()
             .AsNoTracking()
             .Where(q => q.Valid)
             .ToListAsync();
 
-        return Ok(counter);
+        if (counters.Count == 0)
+        {
+            counters.Add(new QueueCounter
+            {
+                ID = 1,
+                CurrentPrefix = "A",
+                CurrentNumber = 0,
+                Valid = true
+            });
+        }
+
+        return Ok(counters.Select(counter => new
+        {
+            id = counter.ID,
+            currentPrefix = counter.CurrentPrefix,
+            currentNumber = counter.CurrentNumber,
+            currentQueueNumber = counter.CurrentQueueNumber,
+            valid = counter.Valid,
+            createdAt = counter.CreatedAt,
+            updatedAt = counter.UpdatedAt
+        }));
     }
 
     [HttpGet("status/{status}")]
@@ -173,7 +193,8 @@ public class QueueController : ControllerBase
             counter = new
             {
                 prefix = counter.CurrentPrefix,
-                number = counter.CurrentNumber
+                number = counter.CurrentNumber,
+                currentQueueNumber = counter.CurrentQueueNumber
             },
             archivedQueues = activeQueues.Count
         });

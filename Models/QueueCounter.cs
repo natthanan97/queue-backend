@@ -6,4 +6,7 @@ public class QueueCounter: BaseModel
 {
     public string CurrentPrefix { get; set; } = "A";
     public int CurrentNumber { get; set; }
+
+    [NotMapped]
+    public string CurrentQueueNumber => $"{CurrentPrefix}{CurrentNumber}";
 }
